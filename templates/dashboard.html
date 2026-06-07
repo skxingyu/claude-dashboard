@@ -1304,12 +1304,6 @@
                     <div class="card-title">🏦 机构观点</div>
                 </div>
                 <div class="inst-list">
-                    {% set inst_news = [] %}
-                    {% for item in news %}
-                        {% if item.is_institutional %}
-                            {% if inst_news.append(item) %}{% endif %}
-                        {% endif %}
-                    {% endfor %}
                     {% if inst_news %}
                         {% for item in inst_news[:10] %}
                         <div class="inst-item" style="animation-delay: {{ loop.index * 0.08 }}s">

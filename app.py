@@ -17,10 +17,14 @@ def dashboard():
     news_data = load_news_data()
     analysis = run_analysis(stock_data, news_data)
 
+    analyzed_news = analysis["analyzed_news"]
+    inst_news = [n for n in analyzed_news if n.get("is_institutional")]
+
     return render_template(
         "dashboard.html",
         data=stock_data,
-        news=analysis["analyzed_news"],
+        news=analyzed_news,
+        inst_news=inst_news,
         alerts=analysis["alerts"],
         volatility_alerts=analysis["volatility_alerts"],
         market_sentiment=analysis["market_sentiment"],
