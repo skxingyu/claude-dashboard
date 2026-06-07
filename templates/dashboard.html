@@ -1266,13 +1266,11 @@
                 <div class="news-list">
                     {% if news %}
                         {% for item in news %}
-                        <div class="news-item {{ 'institutional' if item.is_institutional else '' }}"
+                        {% if not item.is_institutional %}
+                        <div class="news-item"
                              style="animation-delay: {{ loop.index * 0.06 }}s">
                             <div class="news-title">
                                 <a href="{{ item.url }}" target="_blank">
-                                    {% if item.is_institutional %}
-                                    <span class="institutional-badge">机构</span>
-                                    {% endif %}
                                     <span class="sentiment-indicator {{ item.sentiment }}"></span>
                                     {{ item.title }}
                                 </a>
@@ -1288,6 +1286,7 @@
                                 {{ item.time[:19].replace('T', ' ') }} · Sentiment: {{ item.sentiment }}
                             </div>
                         </div>
+                        {% endif %}
                         {% endfor %}
                     {% else %}
                         <div class="empty-state">
