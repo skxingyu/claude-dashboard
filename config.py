@@ -1,10 +1,11 @@
 # Monitor list - stocks to track
 WATCHLIST = ["AAPL", "MSFT", "NVDA", "GOOGL", "META", "TSLA"]
 
-# Market indices (Eastmoney codes: NDX=纳斯达克, SPX=标普500)
+# Market indices (Eastmoney codes: NDX=纳斯达克, SPX=标普500, DJIA=道琼斯)
 INDICES = {
     "NASDAQ": "^IXIC",
     "S&P500": "^GSPC",
+    "Dow Jones": "^DJI",
 }
 
 # Alert thresholds
@@ -24,6 +25,7 @@ NEWS_KEYWORDS = [
     "AI", "人工智能", "半导体", "芯片", "GPU",
     "科技", "纳指", "标普", "美股", "特斯拉",
     "苹果", "英伟达", "谷歌", "Meta", "微软",
+    "道琼斯", "道指",
 ]
 
 # Institutional news keywords (international investment banks, research firms)

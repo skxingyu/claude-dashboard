@@ -2,7 +2,7 @@ import json
 import os
 from datetime import datetime
 
-import requests
+from curl_cffi import requests
 from bs4 import BeautifulSoup
 
 import config
@@ -22,7 +22,7 @@ def scrape_sina_finance():
     news_list = []
 
     try:
-        resp = requests.get(url, headers=headers, timeout=10)
+        resp = requests.get(url, headers=headers, timeout=10, impersonate="chrome")
         resp.encoding = "utf-8"
         soup = BeautifulSoup(resp.text, "lxml")
 
@@ -37,14 +37,18 @@ def scrape_sina_finance():
                 continue
 
             # Check if it matches general keywords or institutional keywords
-            if any(kw in title for kw in config.NEWS_KEYWORDS) or is_institutional_news(title):
-                news_list.append({
-                    "title": title,
-                    "url": href,
-                    "source": "新浪财经",
-                    "is_institutional": is_institutional_news(title),
-                    "time": datetime.now().isoformat(),
-                })
+            if any(kw in title for kw in config.NEWS_KEYWORDS) or is_institutional_news(
+                title
+            ):
+                news_list.append(
+                    {
+                        "title": title,
+                        "url": href,
+                        "source": "新浪财经",
+                        "is_institutional": is_institutional_news(title),
+                        "time": datetime.now().isoformat(),
+                    }
+                )
 
     except Exception as e:
         print(f"[ERROR] Failed to scrape Sina Finance: {e}")
@@ -61,7 +65,7 @@ def scrape_eastmoney():
     news_list = []
 
     try:
-        resp = requests.get(url, headers=headers, timeout=10)
+        resp = requests.get(url, headers=headers, timeout=10, impersonate="chrome")
         resp.encoding = "utf-8"
         soup = BeautifulSoup(resp.text, "lxml")
 
@@ -74,14 +78,18 @@ def scrape_eastmoney():
                 continue
 
             # Check if it matches general keywords or institutional keywords
-            if any(kw in title for kw in config.NEWS_KEYWORDS) or is_institutional_news(title):
-                news_list.append({
-                    "title": title,
-                    "url": href,
-                    "source": "东方财富",
-                    "is_institutional": is_institutional_news(title),
-                    "time": datetime.now().isoformat(),
-                })
+            if any(kw in title for kw in config.NEWS_KEYWORDS) or is_institutional_news(
+                title
+            ):
+                news_list.append(
+                    {
+                        "title": title,
+                        "url": href,
+                        "source": "东方财富",
+                        "is_institutional": is_institutional_news(title),
+                        "time": datetime.now().isoformat(),
+                    }
+                )
 
     except Exception as e:
         print(f"[ERROR] Failed to scrape Eastmoney: {e}")
@@ -98,7 +106,7 @@ def scrape_cnbc():
     news_list = []
 
     try:
-        resp = requests.get(url, headers=headers, timeout=15)
+        resp = requests.get(url, headers=headers, timeout=15, impersonate="chrome")
         resp.encoding = "utf-8"
         soup = BeautifulSoup(resp.text, "lxml")
 
@@ -116,13 +124,15 @@ def scrape_cnbc():
 
             # Check if it's institutional news
             if is_institutional_news(title):
-                news_list.append({
-                    "title": title,
-                    "url": href,
-                    "source": "CNBC",
-                    "is_institutional": True,
-                    "time": datetime.now().isoformat(),
-                })
+                news_list.append(
+                    {
+                        "title": title,
+                        "url": href,
+                        "source": "CNBC",
+                        "is_institutional": True,
+                        "time": datetime.now().isoformat(),
+                    }
+                )
 
     except Exception as e:
         print(f"[ERROR] Failed to scrape CNBC: {e}")
@@ -139,7 +149,7 @@ def scrape_seeking_alpha():
     news_list = []
 
     try:
-        resp = requests.get(url, headers=headers, timeout=15)
+        resp = requests.get(url, headers=headers, timeout=15, impersonate="chrome")
         resp.encoding = "utf-8"
         soup = BeautifulSoup(resp.text, "lxml")
 
@@ -152,7 +162,9 @@ def scrape_seeking_alpha():
                 continue
 
             # Make sure it's a Seeking Alpha link
-            if not href.startswith("/news/") and not href.startswith("https://seekingalpha.com/news/"):
+            if not href.startswith("/news/") and not href.startswith(
+                "https://seekingalpha.com/news/"
+            ):
                 continue
 
             # Check if it's institutional news
@@ -160,14 +172,16 @@ def scrape_seeking_alpha():
                 # Fix relative URLs
                 if href.startswith("/"):
                     href = "https://seekingalpha.com" + href
-                
-                news_list.append({
-                    "title": title,
-                    "url": href,
-                    "source": "Seeking Alpha",
-                    "is_institutional": True,
-                    "time": datetime.now().isoformat(),
-                })
+
+                news_list.append(
+                    {
+                        "title": title,
+                        "url": href,
+                        "source": "Seeking Alpha",
+                        "is_institutional": True,
+                        "time": datetime.now().isoformat(),
+                    }
+                )
 
     except Exception as e:
         print(f"[ERROR] Failed to scrape Seeking Alpha: {e}")
@@ -192,15 +206,18 @@ def fetch_and_save():
             seen.add(item["title"])
             unique_news.append(item)
 
-    # Sort: institutional news first, then by time
-    unique_news.sort(key=lambda x: (not x.get("is_institutional", False), x["time"]), reverse=False)
+    # Sort: institutional news first, then newest first within each group
+    unique_news.sort(key=lambda x: x["time"], reverse=True)
+    unique_news.sort(key=lambda x: not x.get("is_institutional", False))
 
     filepath = os.path.join(config.DATA_DIR, "news.json")
     with open(filepath, "w", encoding="utf-8") as f:
         json.dump(unique_news, f, ensure_ascii=False, indent=2)
 
     institutional_count = sum(1 for n in unique_news if n.get("is_institutional"))
-    print(f"  -> Saved {len(unique_news)} news items ({institutional_count} institutional)")
+    print(
+        f"  -> Saved {len(unique_news)} news items ({institutional_count} institutional)"
+    )
     return unique_news
 
 

@@ -22,6 +22,8 @@ def dashboard():
         data=stock_data,
         news=analysis["analyzed_news"],
         alerts=analysis["alerts"],
+        volatility_alerts=analysis["volatility_alerts"],
+        market_sentiment=analysis["market_sentiment"],
     )
 
 

@@ -1,52 +1,62 @@
 import json
 import os
-import time
 from datetime import datetime
 
-import requests
+from curl_cffi import requests
 
 import config
 
 HEADERS = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"}
 
 
-def get_index_weekly_data(secid):
-    """Fetch weekly kline data for an index."""
-    url = "https://push2his.eastmoney.com/api/qt/stock/kline/get"
-    params = {
-        "secid": secid,
-        "fields1": "f1,f2,f3,f4,f5,f6",
-        "fields2": "f51,f52,f53,f54,f55,f56,f57,f58,f59,f60,f61",
-        "klt": "101",  # daily
-        "fqt": "1",
-        "end": "20500101",
-        "lmt": "5",  # last 5 days
+def _secid_to_tencent_symbol(secid):
+    """Map Eastmoney secid to Tencent finance symbol for kline data."""
+    mapping = {
+        "100.NDX": "usNDX",
+        "100.SPX": "usINX",  # S&P500 uses INX on Tencent
+        "100.DJIA": "usDJI",  # Dow Jones uses DJI on Tencent
     }
+    return mapping.get(secid, f"us{secid.split('.')[-1]}")
 
-    # Use browser-like headers to avoid blocking
-    headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
-        "Accept": "application/json, text/plain, */*",
-        "Accept-Language": "zh-CN,zh;q=0.9,en;q=0.8",
-        "Referer": "https://quote.eastmoney.com/",
-    }
+
+def get_index_weekly_data(secid):
+    """Fetch weekly kline data for an index via Tencent finance API."""
+    tencent_sym = _secid_to_tencent_symbol(secid)
+    url = f"https://web.ifzq.gtimg.cn/appstock/app/newfqkline/get?param={tencent_sym},day,,,5,qfq"
 
     try:
-        r = requests.get(url, headers=headers, params=params, timeout=15)
+        r = requests.get(url, impersonate="chrome", timeout=10)
         data = r.json()
-        if data.get("data") and data["data"].get("klines"):
-            klines = data["data"]["klines"]
+
+        if data.get("data") and isinstance(data["data"], dict):
+            inner = data["data"].get(tencent_sym, {})
+            klines_raw = inner.get("day") or inner.get("qfqday") or []
+
+            if not klines_raw:
+                return None
+
             weekly_data = []
-            for k in klines:
-                parts = k.split(",")
+            for k in klines_raw:
+                # format: [date, open, close, high, low, volume, ...]
                 weekly_data.append({
-                    "date": parts[0],
-                    "open": float(parts[1]),
-                    "close": float(parts[2]),
-                    "high": float(parts[3]),
-                    "low": float(parts[4]),
-                    "change_pct": float(parts[8]) if parts[8] and parts[8] != "-" else 0,
+                    "date": k[0],
+                    "open": float(k[1]),
+                    "close": float(k[2]),
+                    "high": float(k[3]),
+                    "low": float(k[4]),
+                    "change_pct": 0,
                 })
+
+            # Calculate change_pct for each day
+            for i in range(len(weekly_data)):
+                if i == 0:
+                    weekly_data[i]["change_pct"] = 0
+                else:
+                    prev_close = weekly_data[i - 1]["close"]
+                    if prev_close:
+                        weekly_data[i]["change_pct"] = round(
+                            (weekly_data[i]["close"] - prev_close) / prev_close * 100, 2
+                        )
 
             # Calculate weekly summary
             if len(weekly_data) >= 2:
@@ -82,6 +92,8 @@ def get_index_data():
             secid = "100.NDX"
         elif symbol == "^GSPC":
             secid = "100.SPX"
+        elif symbol == "^DJI":
+            secid = "100.DJIA"
         else:
             secid = f"100.{symbol}"
         secids.append(secid)
@@ -96,7 +108,7 @@ def get_index_data():
     }
 
     try:
-        r = requests.get(url, headers=HEADERS, params=params, timeout=10)
+        r = requests.get(url, headers=HEADERS, params=params, timeout=10, impersonate="chrome")
         data = r.json()
         if data.get("data") and data["data"].get("diff"):
             for i, item in enumerate(data["data"]["diff"]):
@@ -114,10 +126,6 @@ def get_index_data():
                 prev_close = item.get("f18", 0)
 
                 if price and price != "-":
-                    # Add delay between weekly data requests to avoid rate limiting
-                    if i > 0:
-                        time.sleep(1)
-                    
                     # Fetch weekly data for this index
                     weekly = get_index_weekly_data(secid)
 
@@ -164,7 +172,7 @@ def get_stock_data():
     }
 
     try:
-        r = requests.get(url, headers=HEADERS, params=params, timeout=10)
+        r = requests.get(url, headers=HEADERS, params=params, timeout=10, impersonate="chrome")
         data = r.json()
         if data.get("data") and data["data"].get("diff"):
             for item in data["data"]["diff"]:

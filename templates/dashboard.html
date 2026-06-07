@@ -78,7 +78,7 @@
         /* Index Cards - Primary Focus */
         .index-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: repeat(3, 1fr);
             gap: 24px;
             margin-bottom: 32px;
         }
@@ -308,137 +308,8 @@
         /* Weekly Stats */
         .content-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 2fr 1fr;
             gap: 24px;
-        }
-
-        /* Stock List Card */
-        .stock-card {
-            background: var(--bg-card);
-            border-radius: var(--radius-lg);
-            box-shadow: var(--shadow-md);
-            overflow: hidden;
-        }
-
-        .stock-card .card-header {
-            padding: 20px 24px;
-            border-bottom: 1px solid #f0f0f0;
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.05), rgba(118, 75, 162, 0.05));
-        }
-
-        .stock-card .card-title {
-            font-size: 18px;
-            font-weight: 600;
-            color: var(--text-primary);
-        }
-
-        .stock-table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        .stock-table thead th {
-            padding: 14px 20px;
-            text-align: left;
-            font-size: 12px;
-            font-weight: 600;
-            color: var(--text-secondary);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            background: #fafafa;
-            cursor: pointer;
-            user-select: none;
-            transition: background-color 0.2s;
-            white-space: nowrap;
-        }
-
-        .stock-table thead th:hover {
-            background-color: #f0f0f0;
-        }
-
-        .stock-table thead th .sort-arrow {
-            font-size: 10px;
-            margin-left: 4px;
-            opacity: 0.4;
-        }
-
-        .stock-table thead th.sorted .sort-arrow {
-            opacity: 1;
-            color: var(--accent-blue);
-        }
-
-        .stock-table tbody tr {
-            transition: background-color 0.2s ease, transform 0.15s ease;
-            animation: fadeIn 0.4s ease forwards;
-            opacity: 0;
-        }
-
-        .stock-table tbody tr:nth-child(1) { animation-delay: 0.05s; }
-        .stock-table tbody tr:nth-child(2) { animation-delay: 0.10s; }
-        .stock-table tbody tr:nth-child(3) { animation-delay: 0.15s; }
-        .stock-table tbody tr:nth-child(4) { animation-delay: 0.20s; }
-        .stock-table tbody tr:nth-child(5) { animation-delay: 0.25s; }
-        .stock-table tbody tr:nth-child(6) { animation-delay: 0.30s; }
-
-        .stock-table tbody tr:hover {
-            background-color: #f8f8f8;
-            transform: scale(1.005);
-        }
-
-        .stock-table tbody td {
-            padding: 14px 20px;
-            font-size: 14px;
-            border-bottom: 1px solid #f5f5f5;
-        }
-
-        .stock-table .symbol-cell {
-            font-weight: 600;
-            color: var(--text-primary);
-            font-family: 'SF Mono', Menlo, Consolas, monospace;
-            font-size: 13px;
-            letter-spacing: 0.3px;
-        }
-
-        .stock-table .stock-icon {
-            display: inline-block;
-            font-size: 16px;
-            margin-right: 6px;
-            vertical-align: middle;
-            line-height: 1;
-        }
-
-        .stock-table .name-cell {
-            color: var(--text-secondary);
-            font-weight: 500;
-            max-width: 140px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-
-        .stock-table .price-cell {
-            font-weight: 600;
-            font-variant-numeric: tabular-nums;
-        }
-
-        .stock-table .change-cell {
-            font-weight: 600;
-            font-variant-numeric: tabular-nums;
-        }
-
-        .stock-table .positive {
-            color: var(--accent-green);
-        }
-
-        .stock-table .negative {
-            color: var(--accent-red);
-        }
-
-        .stock-table .vol-cell,
-        .stock-table .amplitude-cell {
-            font-variant-numeric: tabular-nums;
-            color: var(--text-secondary);
-            font-size: 13px;
         }
 
         /* News Card */
@@ -576,6 +447,74 @@
             background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
             color: white;
             margin-right: 8px;
+        }
+
+        /* Institutional Views Sidebar */
+        .inst-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            overflow: hidden;
+        }
+
+        .inst-list {
+            max-height: 600px;
+            overflow-y: auto;
+            padding: 8px 0;
+        }
+
+        .inst-item {
+            padding: 14px 24px;
+            border-bottom: 1px solid #f5f5f5;
+            transition: background-color 0.2s ease;
+            animation: fadeIn 0.4s ease forwards;
+            opacity: 0;
+        }
+
+        .inst-item:hover {
+            background-color: #f8f8f8;
+        }
+
+        .inst-item:last-child {
+            border-bottom: none;
+        }
+
+        .inst-item .inst-item-title {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-primary);
+            line-height: 1.5;
+            margin-bottom: 6px;
+        }
+
+        .inst-item .inst-item-title a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .inst-item .inst-item-title a:hover {
+            color: var(--accent-blue);
+        }
+
+        .inst-item .inst-item-meta {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 11px;
+            color: var(--text-tertiary);
+        }
+
+        .inst-list::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .inst-list::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .inst-list::-webkit-scrollbar-thumb {
+            background-color: #d0d0d0;
+            border-radius: 3px;
         }
 
         /* Alerts Section */
@@ -736,9 +675,240 @@
             background-color: #b0b0b0;
         }
 
+        /* Market Analysis Section */
+        .analysis-section {
+            margin-bottom: 32px;
+        }
+
+        .analysis-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+
+        .analysis-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            overflow: hidden;
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        .analysis-card .card-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid #f0f0f0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .analysis-card .card-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .analysis-card .card-body {
+            padding: 20px 24px;
+        }
+
+        /* Trend Badge */
+        .trend-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .trend-badge.bullish {
+            background-color: rgba(52, 199, 89, 0.12);
+            color: var(--accent-green);
+        }
+
+        .trend-badge.bearish {
+            background-color: rgba(255, 59, 48, 0.12);
+            color: var(--accent-red);
+        }
+
+        .trend-badge.mixed {
+            background-color: rgba(255, 149, 0, 0.12);
+            color: var(--accent-orange);
+        }
+
+        /* Volatility Items */
+        .volatility-item {
+            display: flex;
+            align-items: flex-start;
+            padding: 10px 0;
+            border-bottom: 1px solid #f5f5f5;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .volatility-item:last-child {
+            border-bottom: none;
+        }
+
+        .volatility-item .vol-tag {
+            flex-shrink: 0;
+            font-size: 10px;
+            font-weight: 600;
+            padding: 2px 8px;
+            border-radius: 4px;
+            margin-right: 10px;
+            margin-top: 2px;
+        }
+
+        .volatility-item .vol-tag.danger {
+            background-color: rgba(255, 59, 48, 0.12);
+            color: var(--accent-red);
+        }
+
+        .volatility-item .vol-tag.warning {
+            background-color: rgba(255, 149, 0, 0.12);
+            color: var(--accent-orange);
+        }
+
+        /* Factor Lists */
+        .factor-section {
+            margin-bottom: 20px;
+        }
+
+        .factor-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .factor-label {
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .factor-label.bullish {
+            color: var(--accent-green);
+        }
+
+        .factor-label.bearish {
+            color: var(--accent-red);
+        }
+
+        .factor-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .factor-list li {
+            position: relative;
+            padding: 6px 0 6px 16px;
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        .factor-list li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 13px;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+        }
+
+        .factor-list.bullish li::before {
+            background-color: var(--accent-green);
+        }
+
+        .factor-list.bearish li::before {
+            background-color: var(--accent-red);
+        }
+
+        /* Outlook Cards */
+        .outlook-card {
+            padding: 16px;
+            border-radius: var(--radius-sm);
+            margin-bottom: 16px;
+        }
+
+        .outlook-card:last-child {
+            margin-bottom: 0;
+        }
+
+        .outlook-card.short-term {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.06), rgba(118, 75, 162, 0.06));
+            border: 1px solid rgba(102, 126, 234, 0.12);
+        }
+
+        .outlook-card.long-term {
+            background: linear-gradient(135deg, rgba(255, 149, 0, 0.06), rgba(255, 59, 48, 0.06));
+            border: 1px solid rgba(255, 149, 0, 0.12);
+        }
+
+        .outlook-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+
+        .outlook-text {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .outlook-detail {
+            font-size: 12px;
+            color: var(--text-tertiary);
+            line-height: 1.6;
+        }
+
+        /* News Stats Bar */
+        .news-stats {
+            display: flex;
+            gap: 16px;
+            padding: 12px 0;
+            margin-bottom: 16px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .news-stat-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .news-stat-item .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        .news-stat-item.positive .dot { background-color: var(--accent-green); }
+        .news-stat-item.negative .dot { background-color: var(--accent-red); }
+        .news-stat-item.neutral .dot { background-color: var(--text-tertiary); }
+        .news-stat-item.institutional .dot { background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end)); }
+
         /* Responsive */
         @media (max-width: 1200px) {
             .index-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .analysis-grid {
                 grid-template-columns: 1fr;
             }
         }
@@ -748,6 +918,11 @@
                 grid-template-columns: 1fr;
             }
         }
+
+        @media (max-width: 768px) {
+            .index-grid {
+                grid-template-columns: 1fr;
+            }
 
         @media (max-width: 768px) {
             .container-main {
@@ -820,6 +995,7 @@
 
         <!-- Index Cards - Primary Focus -->
         <div class="index-grid">
+            {% if data.indices %}
             {% for idx in data.indices %}
             <div class="index-card {{ 'day-up' if idx.change_pct >= 0 else 'day-down' }}">
                 <div class="card-header">
@@ -833,6 +1009,7 @@
                 {% set w_high = idx.weekly.weekly_high %}
                 {% set w_low = idx.weekly.weekly_low %}
                 {% set count = klines|length %}
+                {% if w_high > w_low %}
                 <div class="sparkline-wrap">
                     <svg class="sparkline-svg" viewBox="0 0 100 100" preserveAspectRatio="none">
                         <path class="sparkline-area {{ 'positive' if idx.change_pct >= 0 else 'negative' }}"
@@ -854,6 +1031,7 @@
                     </svg>
                     <div class="sparkline-label">5D</div>
                 </div>
+                {% endif %}
                 {% endif %}
                 <div class="price-section">
                     <div class="current-price">{{ "%.2f"|format(idx.price) }}</div>
@@ -914,6 +1092,12 @@
                 {% endif %}
             </div>
             {% endfor %}
+            {% else %}
+            <div class="empty-state" style="grid-column: 1 / -1;">
+                <div class="empty-icon">📉</div>
+                <div class="empty-text">暂无指数数据，请稍后刷新</div>
+            </div>
+            {% endif %}
         </div>
 
         <!-- Alerts Section -->
@@ -936,50 +1120,148 @@
         </div>
         {% endif %}
 
+        <!-- Market Analysis Section -->
+        {% if market_sentiment %}
+        <div class="analysis-section">
+            <div class="analysis-grid">
+                <!-- Left: Volatility Alerts + Trend Overview -->
+                <div class="analysis-card">
+                    <div class="card-header">
+                        <span style="font-size: 20px;">📊</span>
+                        <div class="card-title">市场波动与趋势</div>
+                    </div>
+                    <div class="card-body">
+                        <!-- Overall Trend Badge -->
+                        <div style="margin-bottom: 16px;">
+                            {% if market_sentiment.trend == 'bullish' %}
+                            <span class="trend-badge bullish">▲ 整体偏多</span>
+                            {% elif market_sentiment.trend == 'bearish' %}
+                            <span class="trend-badge bearish">▼ 整体偏空</span>
+                            {% else %}
+                            <span class="trend-badge mixed">◆ 多空交织</span>
+                            {% endif %}
+                        </div>
+
+                        <!-- Volatility Alerts -->
+                        {% if volatility_alerts %}
+                        <div style="margin-bottom: 20px;">
+                            <div class="factor-label" style="color: var(--accent-orange); margin-bottom: 10px;">波动预警</div>
+                            {% for va in volatility_alerts %}
+                            <div class="volatility-item">
+                                <span class="vol-tag {{ va.level }}">{{ '异常' if va.type == 'abnormal' else '注意' }}</span>
+                                <span>{{ va.message }}</span>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+
+                        <!-- Index Trend Summary -->
+                        <div>
+                            <div class="factor-label" style="color: var(--text-secondary); margin-bottom: 10px;">指数趋势概览</div>
+                            {% for idx in data.indices %}
+                            <div class="volatility-item" style="display: flex; justify-content: space-between; align-items: center;">
+                                <div>
+                                    <span style="font-weight: 600;">{{ idx.name }}</span>
+                                    <span style="color: var(--text-tertiary); font-size: 12px; margin-left: 6px;">{{ idx.symbol }}</span>
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 8px;">
+                                    {% if idx.weekly %}
+                                    <span class="weekly-badge {{ 'positive' if idx.weekly.weekly_change >= 0 else 'negative' }}" style="font-size: 12px; padding: 3px 8px;">
+                                        {{ '▲' if idx.weekly.weekly_change >= 0 else '▼' }}{{ "%.2f"|format(idx.weekly.weekly_change) }}%
+                                    </span>
+                                    {% endif %}
+                                    <span class="change-badge {{ 'positive' if idx.change_pct >= 0 else 'negative' }}" style="font-size: 12px; padding: 3px 8px;">
+                                        {{ '▲' if idx.change_pct >= 0 else '▼' }}{{ "%.2f"|format(idx.change_pct) }}%
+                                    </span>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+
+                        <!-- News Sentiment Stats -->
+                        {% if market_sentiment.stats %}
+                        <div class="news-stats">
+                            <div class="news-stat-item positive">
+                                <span class="dot"></span>
+                                利好 {{ market_sentiment.stats.positive_news }}
+                            </div>
+                            <div class="news-stat-item negative">
+                                <span class="dot"></span>
+                                利空 {{ market_sentiment.stats.negative_news }}
+                            </div>
+                            <div class="news-stat-item neutral">
+                                <span class="dot"></span>
+                                中性 {{ market_sentiment.stats.neutral_news }}
+                            </div>
+                            <div class="news-stat-item institutional">
+                                <span class="dot"></span>
+                                机构 {{ market_sentiment.stats.institutional_news }}
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Right: Bullish/Bearish Analysis -->
+                <div class="analysis-card">
+                    <div class="card-header">
+                        <span style="font-size: 20px;">🔍</span>
+                        <div class="card-title">利好利空分析</div>
+                    </div>
+                    <div class="card-body">
+                        <!-- Bullish Factors -->
+                        <div class="factor-section">
+                            <div class="factor-label bullish">🟢 利好因素</div>
+                            <ul class="factor-list bullish">
+                                {% for factor in market_sentiment.bullish_factors[:6] %}
+                                <li>{{ factor }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+
+                        <!-- Bearish Factors -->
+                        <div class="factor-section">
+                            <div class="factor-label bearish">🔴 利空因素</div>
+                            <ul class="factor-list bearish">
+                                {% for factor in market_sentiment.bearish_factors[:6] %}
+                                <li>{{ factor }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+
+                        <!-- Short-term Outlook -->
+                        <div class="outlook-card short-term">
+                            <div class="outlook-title">📌 短期展望</div>
+                            <div class="outlook-text">{{ market_sentiment.short_term.outlook }}</div>
+                            <div class="outlook-detail">
+                                {% for f in market_sentiment.short_term.factors %}
+                                    · {{ f }}<br>
+                                {% endfor %}
+                            </div>
+                        </div>
+
+                        <!-- Long-term Outlook -->
+                        <div class="outlook-card long-term">
+                            <div class="outlook-title">🔭 中长期展望</div>
+                            <div class="outlook-text">{{ market_sentiment.long_term.outlook }}</div>
+                            <div class="outlook-detail">
+                                {% for f in market_sentiment.long_term.factors %}
+                                    · {{ f }}<br>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
         <!-- Content Grid -->
         <div class="content-grid">
-            <!-- Stock List -->
-            <div class="stock-card">
-                <div class="card-header">
-                    <div class="card-title">Watchlist</div>
-                </div>
-                <table class="stock-table">
-                    <thead>
-                        <tr>
-                            <th data-sort="symbol">Symbol <span class="sort-arrow">▲</span></th>
-                            <th data-sort="name">Name <span class="sort-arrow">▲</span></th>
-                            <th data-sort="price">Price <span class="sort-arrow">▲</span></th>
-                            <th data-sort="change_pct">Change <span class="sort-arrow">▲</span></th>
-                            <th data-sort="volume">Volume <span class="sort-arrow">▲</span></th>
-                            <th data-sort="amplitude">Amp <span class="sort-arrow">▲</span></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for stock in data.stocks %}
-                        <tr data-symbol="{{ stock.symbol }}" data-name="{{ stock.name }}" data-price="{{ stock.price }}" data-change-pct="{{ stock.change_pct }}" data-volume="{{ stock.volume }}" data-amplitude="{{ stock.amplitude }}">
-                            <td class="symbol-cell">
-                                <span class="stock-icon" style="background: {% if stock.symbol == 'AAPL' %}#f5f5f7{% elif stock.symbol == 'MSFT' %}#e8f0fe{% elif stock.symbol == 'NVDA' %}#e8f5e9{% elif stock.symbol == 'GOOGL' %}#fce4ec{% elif stock.symbol == 'META' %}#f3e5f5{% elif stock.symbol == 'TSLA' %}#fff3e0{% else %}#f5f5f7{% endif %}; border-radius: 8px; padding: 2px 6px; font-size: 16px;">
-                                    {% if stock.symbol == 'AAPL' %}🍎{% elif stock.symbol == 'MSFT' %}🪟{% elif stock.symbol == 'NVDA' %}🔧{% elif stock.symbol == 'GOOGL' %}🔍{% elif stock.symbol == 'META' %}👤{% elif stock.symbol == 'TSLA' %}⚡{% else %}📊{% endif %}
-                                </span>
-                                {{ stock.symbol }}
-                            </td>
-                            <td class="name-cell">{{ stock.name }}</td>
-                            <td class="price-cell">{{ "%.2f"|format(stock.price) }}</td>
-                            <td class="change-cell {{ 'positive' if stock.change_pct >= 0 else 'negative' }}">
-                                {{ "+" if stock.change_pct >= 0 else "" }}{{ "%.2f"|format(stock.change_pct) }}%
-                            </td>
-                            <td class="vol-cell">{{ stock.volume }}</td>
-                            <td class="amplitude-cell">{{ "%.2f"|format(stock.amplitude) }}%</td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-
-            <!-- News -->
+            <!-- News (Main) -->
             <div class="news-card">
                 <div class="card-header">
-                    <div class="card-title">News</div>
+                    <div class="card-title">📰 市场资讯</div>
                 </div>
                 <div class="news-list">
                     {% if news %}
@@ -1011,6 +1293,39 @@
                         <div class="empty-state">
                             <div class="empty-icon">📰</div>
                             <div class="empty-text">No news available</div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Institutional Views (Sidebar) -->
+            <div class="inst-card">
+                <div class="card-header" style="padding: 20px 24px; border-bottom: 1px solid #f0f0f0; background: linear-gradient(135deg, rgba(102, 126, 234, 0.05), rgba(118, 75, 162, 0.05));">
+                    <div class="card-title">🏦 机构观点</div>
+                </div>
+                <div class="inst-list">
+                    {% set inst_news = [] %}
+                    {% for item in news %}
+                        {% if item.is_institutional %}
+                            {% if inst_news.append(item) %}{% endif %}
+                        {% endif %}
+                    {% endfor %}
+                    {% if inst_news %}
+                        {% for item in inst_news[:10] %}
+                        <div class="inst-item" style="animation-delay: {{ loop.index * 0.08 }}s">
+                            <div class="inst-item-title">
+                                <a href="{{ item.url }}" target="_blank">{{ item.title }}</a>
+                            </div>
+                            <div class="inst-item-meta">
+                                <span class="sentiment-tag {{ item.sentiment }}">{{ item.sentiment }}</span>
+                                <span>{{ item.source }}</span>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <div class="empty-state">
+                            <div class="empty-icon">🏦</div>
+                            <div class="empty-text">暂无机构观点</div>
                         </div>
                     {% endif %}
                 </div>
@@ -1059,50 +1374,6 @@
             });
         });
 
-        // Sortable watchlist table
-        const table = document.querySelector('.stock-table');
-        if (table) {
-            const headers = table.querySelectorAll('thead th[data-sort]');
-            let sortState = { key: null, asc: true };
-
-            headers.forEach(th => {
-                th.addEventListener('click', () => {
-                    const key = th.getAttribute('data-sort');
-                    if (sortState.key === key) {
-                        sortState.asc = !sortState.asc;
-                    } else {
-                        sortState.key = key;
-                        sortState.asc = true;
-                    }
-
-                    headers.forEach(h => h.classList.remove('sorted'));
-                    th.classList.add('sorted');
-                    th.querySelector('.sort-arrow').textContent = sortState.asc ? '▲' : '▼';
-
-                    const tbody = table.querySelector('tbody');
-                    const rows = Array.from(tbody.querySelectorAll('tr'));
-
-                    rows.sort((a, b) => {
-                        let aVal, bVal;
-                        if (key === 'symbol' || key === 'name') {
-                            aVal = a.getAttribute('data-' + key) || '';
-                            bVal = b.getAttribute('data-' + key) || '';
-                            return sortState.asc ? aVal.localeCompare(bVal) : bVal.localeCompare(aVal);
-                        } else {
-                            aVal = parseFloat(a.getAttribute('data-' + key)) || 0;
-                            bVal = parseFloat(b.getAttribute('data-' + key)) || 0;
-                            return sortState.asc ? aVal - bVal : bVal - aVal;
-                        }
-                    });
-
-                    tbody.innerHTML = '';
-                    rows.forEach((row, i) => {
-                        row.style.animationDelay = (i * 0.05) + 's';
-                        tbody.appendChild(row);
-                    });
-                });
-            });
-        }
     </script>
 </body>
 </html>
